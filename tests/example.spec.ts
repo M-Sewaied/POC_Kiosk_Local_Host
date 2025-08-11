@@ -3,8 +3,15 @@ test('has title', async ({ page, context }) => {
   await page.goto('http://localhost:8080');
   page.getByRole('button', { name: 'Change Server' }).click();
   await page.getByLabel('Servers').click();
-  await page.getByRole('option', { name: 'Pre-Prod' }).click();
-  await page.getByRole('button', { name: 'Apply' }).click();
+  await page.waitForTimeout(1000);
+  await page.getByRole('option', { name: 'Custom' }).click();
+  await page.waitForTimeout(1000);
+// Target the URL input specifically by its label
+await page.getByLabel('URL').fill('https://test-consumer-api2.getsolo.io');
+
+// Click APPLY button
+await page.getByRole('button', { name: 'APPLY' }).click();
+await page.waitForTimeout(1000);
   const usernameInput = page.getByLabel('Username');
   const passwordInput = page.getByLabel('Password');
   await usernameInput.fill('skylinedynamics');
@@ -20,13 +27,13 @@ test('has title', async ({ page, context }) => {
   const conceptDropdownArrow = page.locator('.mdi-menu-down').nth(0);
   await conceptDropdownArrow.click();
   await page
-  .locator('.v-list-item__title', { hasText: "Shawarmer KSA Airport" })
+  .locator('.v-list-item__title', { hasText: "Hamburgini" })
   .click();
 
-  // Wait for potential popup and handle it
+ // Wait for potential popup and handle it
   try {
     const popupDialog = page.locator('div.v-dialog.v-dialog--active.v-dialog--persistent');
-    await popupDialog.waitFor({ state: 'visible', timeout: 10000 });
+    await popupDialog.waitFor({ state: 'visible', timeout: 2000 });
     
     // Try multiple button selectors
     const okayButton = popupDialog.locator('button:has-text("Okay"), button:has-text("OK"), button:has-text("Ok")');
@@ -51,19 +58,16 @@ test('has title', async ({ page, context }) => {
   await page.locator('div.card:has-text("TAKE OUT")').click();
   //await page.waitForTimeout(1000);
   //await page.locator('div#card:has-text("Foul")').click();
-  await page.getByText('Happy Lunch 2', { exact: true }).click();
-  await page.waitForTimeout(2000);
+  await page.getByText('Cajun Fries', { exact: true }).click();
   //await page.getByRole('button', { name: /Add to bag/i }).click();
   await page.getByRole('button', { name: 'Add' }).click();
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: /Review Your Order/i }).click();
-  await page.waitForTimeout(1000);
-  await page.getByRole('button', { name: 'Skip' }).click();
+  //await page.waitForTimeout(1000);
+  //await page.getByRole('button', { name: 'Skip' }).click();
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Continue' }).click();
-  await page.waitForTimeout(1000);
   await page.getByText('Pay at Cashier').click();
-  await page.waitForTimeout(1000);
+  
 });
